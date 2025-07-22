@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的导航页</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome图标 -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- 自定义Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        life: '#F59E0B',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .nav-item {
+                @apply flex items-center gap-2 p-2 rounded-lg bg-white shadow-sm 
+                       transition-all duration-200 hover:shadow-md hover:bg-gray-50;
+            }
+            .search-focus {
+                @apply focus:ring-2 focus:ring-primary/50 focus:outline-none;
+            }
+            .category-header {
+                @apply flex items-center justify-between cursor-pointer p-2 rounded-lg 
+                       transition-all duration-200 hover:bg-gray-100;
+            }
+            .rotate-icon {
+                @apply transition-transform duration-300 transform rotate-180;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-6 max-w-6xl">
+        <!-- 页面标题 -->
+        <header class="text-center mb-6">
+            <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-gray-800">我的导航</h1>
+            <p class="text-gray-500 mt-1">快速访问常用网站</p>
+        </header>
+        
+        <!-- 搜索框 -->
+        <div class="mb-6">
+            <div class="relative max-w-xl mx-auto">
+                <input 
+                    type="text" 
+                    id="search" 
+                    placeholder="搜索网站..." 
+                    class="w-full py-2 px-4 rounded-full border border-gray-200 shadow-sm search-focus text-sm"
+                >
+                <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 导航分类 -->
+        <div class="space-y-4">
+            <!-- 工作类（默认展开） -->
+            <section class="bg-white rounded-xl shadow-sm p-4">
+                <div class="category-header text-lg font-semibold" data-category="work">
+                    <div class="flex items-center">
+                        <i class="fa fa-briefcase text-primary mr-2"></i>工作工具
+                    </div>
+                    <i class="fa fa-chevron-down text-sm transition-transform duration-300 rotate-icon" id="workIcon"></i>
+                </div>
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3 mt-2" id="workContent">
+                    <!-- 网站卡片 -->
+                    <a href="https://docs.google.com" target="_blank" class="nav-item">
+                        <i class="fa fa-file-text-o text-primary w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">Google文档</span>
+                    </a>
+                    <a href="https://github.com" target="_blank" class="nav-item">
+                        <i class="fa fa-github text-gray-800 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">GitHub</span>
+                    </a>
+                    <a href="https://notion.so" target="_blank" class="nav-item">
+                        <i class="fa fa-sticky-note-o text-gray-600 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">Notion</span>
+                    </a>
+                    <a href="https://trello.com" target="_blank" class="nav-item">
+                        <i class="fa fa-trello text-blue-700 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">Trello</span>
+                    </a>
+                    <a href="https://slack.com" target="_blank" class="nav-item">
+                        <i class="fa fa-slack text-purple-600 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">Slack</span>
+                    </a>
+                    <a href="https://zoom.us" target="_blank" class="nav-item">
+                        <i class="fa fa-video-camera text-blue-500 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">Zoom</span>
+                    </a>
+                </div>
+            </section>
+            
+            <!-- 学习类（默认展开） -->
+            <section class="bg-white rounded-xl shadow-sm p-4">
+                <div class="category-header text-lg font-semibold" data-category="study">
+                    <div class="flex items-center">
+                        <i class="fa fa-graduation-cap text-secondary mr-2"></i>学习资源
+                    </div>
+                    <i class="fa fa-chevron-down text-sm transition-transform duration-300 rotate-icon" id="studyIcon"></i>
+                </div>
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3 mt-2" id="studyContent">
+                    <a href="https://stackoverflow.com" target="_blank" class="nav-item">
+                        <i class="fa fa-code text-orange-500 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">Stack Overflow</span>
+                    </a>
+                    <a href="https://w3schools.com" target="_blank" class="nav-item">
+                        <i class="fa fa-html5 text-red-500 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">W3Schools</span>
+                    </a>
+                    <a href="https://juejin.cn" target="_blank" class="nav-item">
+                        <i class="fa fa-book text-green-600 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">掘金</span>
+                    </a>
+                    <a href="https://leetcode.com" target="_blank" class="nav-item">
+                        <i class="fa fa-pencil text-indigo-500 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">LeetCode</span>
+                    </a>
+                </div>
+            </section>
+            
+            <!-- 生活类（默认折叠） -->
+            <section class="bg-white rounded-xl shadow-sm p-4">
+                <div class="category-header text-lg font-semibold" data-category="life">
+                    <div class="flex items-center">
+                        <i class="fa fa-home text-life mr-2"></i>生活服务
+                    </div>
+                    <i class="fa fa-chevron-down text-sm transition-transform duration-300" id="lifeIcon"></i>
+                </div>
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3 mt-2 hidden" id="lifeContent">
+                    <a href="https://maps.google.com" target="_blank" class="nav-item">
+                        <i class="fa fa-map-marker text-red-600 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">地图</span>
+                    </a>
+                    <a href="https://calendar.google.com" target="_blank" class="nav-item">
+                        <i class="fa fa-calendar text-blue-500 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">日历</span>
+                    </a>
+                    <a href="https://mail.google.com" target="_blank" class="nav-item">
+                        <i class="fa fa-envelope text-gray-600 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">邮箱</span>
+                    </a>
+                    <a href="https://music.163.com" target="_blank" class="nav-item">
+                        <i class="fa fa-music text-green-500 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">网易云音乐</span>
+                    </a>
+                    <a href="https://movie.douban.com" target="_blank" class="nav-item">
+                        <i class="fa fa-film text-pink-500 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">豆瓣电影</span>
+                    </a>
+                </div>
+            </section>
+            
+            <!-- 娱乐类（默认折叠） -->
+            <section class="bg-white rounded-xl shadow-sm p-4">
+                <div class="category-header text-lg font-semibold" data-category="entertainment">
+                    <div class="flex items-center">
+                        <i class="fa fa-gamepad text-purple-500 mr-2"></i>娱乐休闲
+                    </div>
+                    <i class="fa fa-chevron-down text-sm transition-transform duration-300" id="entertainmentIcon"></i>
+                </div>
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3 mt-2 hidden" id="entertainmentContent">
+                    <a href="https://youtube.com" target="_blank" class="nav-item">
+                        <i class="fa fa-youtube-play text-red-600 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">YouTube</span>
+                    </a>
+                    <a href="https://bilibili.com" target="_blank" class="nav-item">
+                        <i class="fa fa-play-circle text-pink-500 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">哔哩哔哩</span>
+                    </a>
+                    <a href="https://twitch.tv" target="_blank" class="nav-item">
+                        <i class="fa fa-video-camera text-purple-600 w-5 text-center"></i>
+                        <span class="text-gray-700 text-sm truncate">Twitch</span>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // 初始化所有分类的折叠/展开功能
+        document.querySelectorAll('.category-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const category = header.getAttribute('data-category');
+                const content = document.getElementById(`${category}Content`);
+                const icon = document.getElementById(`${category}Icon`);
+                
+                content.classList.toggle('hidden');
+                icon.classList.toggle('rotate-icon');
+            });
+        });
+
+        // 搜索功能实现
+        document.getElementById('search').addEventListener('keyup', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            const links = document.querySelectorAll('.nav-item');
+            const categories = document.querySelectorAll('[id$="Content"]');
+            
+            // 如果搜索词不为空，自动展开所有分类
+            if (searchTerm !== '') {
+                categories.forEach(category => {
+                    category.classList.remove('hidden');
+                    const categoryId = category.id.replace('Content', '');
+                    document.getElementById(`${categoryId}Icon`).classList.add('rotate-icon');
+                });
+            }
+            
+            // 过滤显示匹配的导航项
+            links.forEach(link => {
+                const text = link.querySelector('span').textContent.toLowerCase();
+                if (searchTerm === '' || text.includes(searchTerm)) {
+                    link.style.display = 'flex';
+                } else {
+                    link.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
