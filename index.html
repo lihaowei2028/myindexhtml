@@ -4,10 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的导航页</title>
-    <!-- 引入Tailwind CSS -->
+    <!-- 引入Tailwind CSS（稳定CDN） -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入Font Awesome图标 -->
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 引入Font Awesome（稳定CDN） -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- 基础样式保障（防止CDN加载失败） -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #f9fafb;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
     
     <!-- 自定义Tailwind配置 -->
     <script>
@@ -17,11 +35,29 @@
                     colors: {
                         primary: '#3B82F6',
                         secondary: '#10B981',
-                        life: '#F59E0B',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                    },
+                        baidu: '#2383E2',
+                        google: '#4285F4',
+                        doubao: '#6366F1',
+                        deepseek: '#10B981',
+                        kimi: '#F59E0B',
+                        netease: '#D92121',
+                        jd: '#E02E24',
+                        taobao: '#FF4400',
+                        xiaohongshu: '#FE2C55',
+                        xianyu: '#FF9A2E',
+                        weifeng: '#0066B2',
+                        bilibili: '#FB7299',
+                        news: '#333333',
+                        '36kr': '#37CAEC',
+                        oschina: '#F56C6C',
+                        runoob: '#4CAF50',
+                        infoq: '#7B68EE',
+                        geekpark: '#FF6B35',
+                        codewars: '#B1365F',
+                        nowcoder: '#1E88E5',
+                        coursera: '#0056D2',
+                        csdn: '#FF7D00'
+                    }
                 }
             }
         }
@@ -30,11 +66,11 @@
     <style type="text/tailwindcss">
         @layer utilities {
             .nav-item {
-                @apply flex items-center gap-2 p-2 rounded-lg bg-white shadow-sm 
-                       transition-all duration-200 hover:shadow-md hover:bg-gray-50;
+                @apply flex items-center justify-center gap-2 p-3 rounded-lg bg-white shadow-sm 
+                       transition-all duration-200 hover:shadow-md hover:bg-gray-50 text-center;
             }
             .search-focus {
-                @apply focus:ring-2 focus:ring-primary/50 focus:outline-none;
+                @apply focus:ring-2 focus:outline-none;
             }
             .category-header {
                 @apply flex items-center justify-between cursor-pointer p-2 rounded-lg 
@@ -43,35 +79,61 @@
             .rotate-icon {
                 @apply transition-transform duration-300 transform rotate-180;
             }
+            .search-selector {
+                @apply appearance-none bg-gray-50 border border-gray-200 rounded-l-lg px-4 py-3 
+                       focus:ring-2 focus:ring-primary/50 focus:outline-none cursor-pointer h-full;
+            }
+            .select-arrow::after {
+                content: "\f078";
+                font-family: "FontAwesome";
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                pointer-events: none;
+                color: #666;
+            }
+            .search-element {
+                @apply h-12 box-border;
+            }
         }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
-    <div class="container mx-auto px-4 py-6 max-w-6xl">
+    <div class="container mx-auto px-4 py-6 max-w-5xl">
         <!-- 页面标题 -->
         <header class="text-center mb-6">
             <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-gray-800">我的导航</h1>
             <p class="text-gray-500 mt-1">快速访问常用网站</p>
         </header>
         
-        <!-- 搜索框 -->
-        <div class="mb-6">
-            <div class="relative max-w-xl mx-auto">
+        <!-- 合并搜索框 -->
+        <div class="mb-6 max-w-2xl mx-auto relative">
+            <form id="searchForm" action="https://www.baidu.com/s" method="get" class="w-full flex">
+                <div class="relative select-arrow w-36 sm:w-40 search-element">
+                    <select id="searchEngine" class="search-selector text-sm border-r-0 pr-10 appearance-none w-full" name="searchEngine">
+                        <option value="baidu" data-action="https://www.baidu.com/s" data-param="wd">百度搜索</option>
+                        <option value="google" data-action="https://www.google.com/search" data-param="q">谷歌搜索</option>
+                    </select>
+                </div>
+                
                 <input 
                     type="text" 
-                    id="search" 
-                    placeholder="搜索网站..." 
-                    class="w-full py-2 px-4 rounded-full border border-gray-200 shadow-sm search-focus text-sm"
+                    name="wd" 
+                    id="searchInput"
+                    placeholder="请输入搜索内容..." 
+                    class="w-full py-3 px-4 border border-gray-200 shadow-sm search-focus text-base focus:ring-primary/50 search-element"
                 >
-                <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
-                    <i class="fa fa-search"></i>
+                
+                <button type="submit" class="bg-baidu text-white px-6 sm:px-8 rounded-r-lg hover:bg-blue-700 transition-colors whitespace-nowrap search-element flex items-center justify-center" id="searchButton">
+                    <i class="fa fa-search mr-1"></i>搜索
                 </button>
-            </div>
+            </form>
         </div>
         
         <!-- 导航分类 -->
         <div class="space-y-4">
-            <!-- 工作类（默认展开） -->
+            <!-- 工作类 -->
             <section class="bg-white rounded-xl shadow-sm p-4">
                 <div class="category-header text-lg font-semibold" data-category="work">
                     <div class="flex items-center">
@@ -79,51 +141,64 @@
                     </div>
                     <i class="fa fa-chevron-down text-sm transition-transform duration-300 rotate-icon" id="workIcon"></i>
                 </div>
-                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3 mt-2" id="workContent">
-                    <!-- 网站卡片 -->
-                    <a href="https://www.google.com" target="_blank" class="nav-item">
-                        <i class="fa fa-file-text-o text-primary w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">Google</span>
-                    </a>
-                    <a href="https://www.baidu.com" target="_blank" class="nav-item">
-                        <i class="fa fa-file-text-o text-primary w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">百度</span>
-                    </a>
-                    <a href="https://github.com" target="_blank" class="nav-item">
-                        <i class="fa fa-github text-gray-800 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">GitHub</span>
-                    </a>
-                    <a href="http://translate.google.com.hk" target="_blank" class="nav-item">
-                        <i class="fa fa-sticky-note-o text-gray-600 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">谷歌翻译</span>
-                    </a>
-                    <a href="http://www.csdn.net" target="_blank" class="nav-item">
-                        <i class="fa fa-trello text-blue-700 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">CSDN</span>
-                    </a>
-                    <a href="https://fanyi.baidu.com" target="_blank" class="nav-item">
-                        <i class="fa fa-slack text-purple-600 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">百度翻译</span>
-                    </a>
-                    <a href="https://www.doubao.com/chat/" target="_blank" class="nav-item">
-                        <i class="fa fa-video-camera text-blue-500 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">豆包</span>
-                    </a>
-                    <a href="https://kimi.moonshot.cn/" target="_blank" class="nav-item">
-                        <i class="fa fa-video-camera text-blue-500 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">KiMi</span>
-                    </a>
-                </div>
-                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3 mt-2" id="workContent">
-                    <!-- 网站卡片 -->
-                    <a href="https://chat.deepseek.com/" target="_blank" class="nav-item">
-                        <i class="fa fa-file-text-o text-primary w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">DeepSeek</span>
-                    </a>
+                <div class="space-y-3 mt-2" id="workContent">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        <a href="https://google.com" target="_blank" class="nav-item">
+                            <i class="fa fa-google text-google w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">谷歌</span>
+                        </a>
+                        <a href="https://baidu.com" target="_blank" class="nav-item">
+                            <i class="fa fa-search text-baidu w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">百度</span>
+                        </a>
+                        <a href="https://www.doubao.com" target="_blank" class="nav-item">
+                            <i class="fa fa-comments text-doubao w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">豆包</span>
+                        </a>
+                        <a href="https://www.deepseek.com" target="_blank" class="nav-item">
+                            <i class="fa fa-lightbulb-o text-deepseek w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">DeepSeek</span>
+                        </a>
+                        <a href="https://kimi.moonshot.cn" target="_blank" class="nav-item">
+                            <i class="fa fa-rocket text-kimi w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">Kimi</span>
+                        </a>
+                        <a href="https://github.com" target="_blank" class="nav-item">
+                            <i class="fa fa-github text-gray-800 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">GitHub</span>
+                        </a>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        <a href="https://translate.google.com" target="_blank" class="nav-item">
+                            <i class="fa fa-language text-google w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">谷歌翻译</span>
+                        </a>
+                        <a href="https://fanyi.baidu.com" target="_blank" class="nav-item">
+                            <i class="fa fa-language text-baidu w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">百度翻译</span>
+                        </a>
+                        <a href="https://wikileaks.org" target="_blank" class="nav-item">
+                            <i class="fa fa-unlock-alt text-red-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">维基解密</span>
+                        </a>
+                        <a href="https://www.zhipin.com" target="_blank" class="nav-item">
+                            <i class="fa fa-briefcase text-green-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">BOSS直聘</span>
+                        </a>
+                        <a href="https://www.zhaopin.com" target="_blank" class="nav-item">
+                            <i class="fa fa-user text-blue-500 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">智联招聘</span>
+                        </a>
+                        <a href="https://mail.163.com" target="_blank" class="nav-item">
+                            <i class="fa fa-envelope text-netease w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">网易163邮箱</span>
+                        </a>
+                    </div>
                 </div>
             </section>
             
-            <!-- 学习类（默认展开） -->
+            <!-- 学习类 -->
             <section class="bg-white rounded-xl shadow-sm p-4">
                 <div class="category-header text-lg font-semibold" data-category="study">
                     <div class="flex items-center">
@@ -131,126 +206,303 @@
                     </div>
                     <i class="fa fa-chevron-down text-sm transition-transform duration-300 rotate-icon" id="studyIcon"></i>
                 </div>
-                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3 mt-2" id="studyContent">
-                    <a href="https://stackoverflow.com" target="_blank" class="nav-item">
-                        <i class="fa fa-code text-orange-500 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">Stack Overflow</span>
-                    </a>
-                    <a href="https://w3schools.com" target="_blank" class="nav-item">
-                        <i class="fa fa-html5 text-red-500 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">W3Schools</span>
-                    </a>
-                    <a href="https://juejin.cn" target="_blank" class="nav-item">
-                        <i class="fa fa-book text-green-600 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">掘金</span>
-                    </a>
-                    <a href="https://leetcode.com" target="_blank" class="nav-item">
-                        <i class="fa fa-pencil text-indigo-500 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">LeetCode</span>
-                    </a>
+                <div class="space-y-3 mt-2" id="studyContent">
+                    <!-- 第一行：Stack Overflow，W3Schools，掘金，LeetCode，开源中国，菜鸟教程 -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        <a href="https://stackoverflow.com" target="_blank" class="nav-item">
+                            <i class="fa fa-code text-orange-500 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">Stack Overflow</span>
+                        </a>
+                        <a href="https://w3schools.com" target="_blank" class="nav-item">
+                            <i class="fa fa-html5 text-red-500 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">W3Schools</span>
+                        </a>
+                        <a href="https://juejin.cn" target="_blank" class="nav-item">
+                            <i class="fa fa-book text-green-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">掘金</span>
+                        </a>
+                        <a href="https://leetcode.com" target="_blank" class="nav-item">
+                            <i class="fa fa-pencil text-indigo-500 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">LeetCode</span>
+                        </a>
+                        <a href="https://oschina.net" target="_blank" class="nav-item">
+                            <i class="fa fa-code-fork text-oschina w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">开源中国</span>
+                        </a>
+                        <a href="https://runoob.com" target="_blank" class="nav-item">
+                            <i class="fa fa-graduation-cap text-runoob w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">菜鸟教程</span>
+                        </a>
+                    </div>
+                    
+                    <!-- 第二行：InfoQ，极客公园，Codewars，牛客网，Coursera，CSDN -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        <a href="https://infoq.cn" target="_blank" class="nav-item">
+                            <i class="fa fa-newspaper-o text-infoq w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">InfoQ</span>
+                        </a>
+                        <a href="https://geekpark.net" target="_blank" class="nav-item">
+                            <i class="fa fa-rocket text-geekpark w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">极客公园</span>
+                        </a>
+                        <a href="https://codewars.com" target="_blank" class="nav-item">
+                            <i class="fa fa-trophy text-codewars w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">Codewars</span>
+                        </a>
+                        <a href="https://nowcoder.com" target="_blank" class="nav-item">
+                            <i class="fa fa-graduation-cap text-nowcoder w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">牛客网</span>
+                        </a>
+                        <a href="https://coursera.org" target="_blank" class="nav-item">
+                            <i class="fa fa-university text-coursera w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">Coursera</span>
+                        </a>
+                        <a href="https://csdn.net" target="_blank" class="nav-item">
+                            <i class="fa fa-code text-csdn w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">CSDN</span>
+                        </a>
+                    </div>
                 </div>
             </section>
             
-            <!-- 生活类（默认折叠） -->
+            <!-- 生活类 -->
             <section class="bg-white rounded-xl shadow-sm p-4">
                 <div class="category-header text-lg font-semibold" data-category="life">
                     <div class="flex items-center">
-                        <i class="fa fa-home text-life mr-2"></i>生活服务
+                        <i class="fa fa-home text-amber-500 mr-2"></i>生活服务
                     </div>
                     <i class="fa fa-chevron-down text-sm transition-transform duration-300" id="lifeIcon"></i>
                 </div>
-                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3 mt-2 hidden" id="lifeContent">
-                    <a href="https://maps.google.com" target="_blank" class="nav-item">
-                        <i class="fa fa-map-marker text-red-600 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">地图</span>
-                    </a>
-                    <a href="https://calendar.google.com" target="_blank" class="nav-item">
-                        <i class="fa fa-calendar text-blue-500 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">日历</span>
-                    </a>
-                    <a href="https://mail.google.com" target="_blank" class="nav-item">
-                        <i class="fa fa-envelope text-gray-600 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">邮箱</span>
-                    </a>
-                    <a href="https://music.163.com" target="_blank" class="nav-item">
-                        <i class="fa fa-music text-green-500 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">网易云音乐</span>
-                    </a>
-                    <a href="https://movie.douban.com" target="_blank" class="nav-item">
-                        <i class="fa fa-film text-pink-500 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">豆瓣电影</span>
-                    </a>
-                </div>
-            </section>
-            
-            <!-- 娱乐类（默认折叠） -->
-            <section class="bg-white rounded-xl shadow-sm p-4">
-                <div class="category-header text-lg font-semibold" data-category="entertainment">
-                    <div class="flex items-center">
-                        <i class="fa fa-gamepad text-purple-500 mr-2"></i>娱乐休闲
+                <div class="space-y-3 mt-2 hidden" id="lifeContent">
+                    <!-- 第一行：电商平台 -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        <a href="https://jd.com" target="_blank" class="nav-item">
+                            <i class="fa fa-shopping-bag text-jd w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">京东商城</span>
+                        </a>
+                        <a href="https://taobao.com" target="_blank" class="nav-item">
+                            <i class="fa fa-shopping-cart text-taobao w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">淘宝网</span>
+                        </a>
+                        <a href="https://xiaohongshu.com" target="_blank" class="nav-item">
+                            <i class="fa fa-book text-xiaohongshu w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">小红书</span>
+                        </a>
+                        <a href="https://2.taobao.com" target="_blank" class="nav-item">
+                            <i class="fa fa-recycle text-xianyu w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">闲鱼</span>
+                        </a>
+                        <a href="https://weiphone.com" target="_blank" class="nav-item">
+                            <i class="fa fa-mobile text-weifeng w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">威锋</span>
+                        </a>
+                        <a href="https://bilibili.com" target="_blank" class="nav-item">
+                            <i class="fa fa-play-circle text-bilibili w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">哔哩哔哩</span>
+                        </a>
                     </div>
-                    <i class="fa fa-chevron-down text-sm transition-transform duration-300" id="entertainmentIcon"></i>
-                </div>
-                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3 mt-2 hidden" id="entertainmentContent">
-                    <a href="https://www.taobao.com" target="_blank" class="nav-item">
-                        <i class="fa fa-youtube-play text-red-600 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">淘宝网</span>
-                    </a>
-                    <a href="https://bilibili.com" target="_blank" class="nav-item">
-                        <i class="fa fa-play-circle text-pink-500 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">哔哩哔哩</span>
-                    </a>
-                    <a href="http://www.jd.com" target="_blank" class="nav-item">
-                        <i class="fa fa-video-camera text-purple-600 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">京东商城</span>
-                    </a>
-                    <a href="https://tieba.baidu.com/f?kw=pt&fr=ala0&tpl=5" target="_blank" class="nav-item">
-                        <i class="fa fa-video-camera text-purple-600 w-5 text-center"></i>
-                        <span class="text-gray-700 text-sm truncate">PT吧</span>
-                    </a>
+                    
+                    <!-- 第二行：综合新闻（含36氪） -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        <a href="https://ifeng.com" target="_blank" class="nav-item">
+                            <i class="fa fa-newspaper-o text-news w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">凤凰网</span>
+                        </a>
+                        <a href="https://news.163.com" target="_blank" class="nav-item">
+                            <i class="fa fa-newspaper-o text-netease w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">网易新闻</span>
+                        </a>
+                        <a href="https://news.sina.com.cn" target="_blank" class="nav-item">
+                            <i class="fa fa-newspaper-o text-red-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">新浪新闻</span>
+                        </a>
+                        <a href="https://eastmoney.com" target="_blank" class="nav-item">
+                            <i class="fa fa-line-chart text-green-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">东方财富网</span>
+                        </a>
+                        <a href="https://caijing.com.cn" target="_blank" class="nav-item">
+                            <i class="fa fa-money text-green-700 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">财经网</span>
+                        </a>
+                        <a href="https://36kr.com" target="_blank" class="nav-item">
+                            <i class="fa fa-bullhorn text-36kr w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">36氪</span>
+                        </a>
+                    </div>
+                    
+                    <!-- 第三行：国内权威媒体 -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        <a href="https://xinhuanet.com" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-red-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">新华网</span>
+                        </a>
+                        <a href="https://people.com.cn" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-red-700 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">人民网</span>
+                        </a>
+                        <a href="https://tv.cctv.com" target="_blank" class="nav-item">
+                            <i class="fa fa-television text-blue-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">央视网</span>
+                        </a>
+                        <a href="https://chinanews.com" target="_blank" class="nav-item">
+                            <i class="fa fa-newspaper-o text-blue-500 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">中国新闻网</span>
+                        </a>
+                        <a href="https://gmw.cn" target="_blank" class="nav-item">
+                            <i class="fa fa-newspaper-o text-red-500 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">光明网</span>
+                        </a>
+                        <a href="https://caixin.com" target="_blank" class="nav-item">
+                            <i class="fa fa-newspaper-o text-gray-700 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">财新网</span>
+                        </a>
+                    </div>
+                    
+                    <!-- 第四行：国际媒体 -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        <a href="https://reuters.com" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-blue-500 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">路透社</span>
+                        </a>
+                        <a href="https://apnews.com" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-gray-800 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">美联社</span>
+                        </a>
+                        <a href="https://france24.com" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-blue-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">法新社</span>
+                        </a>
+                        <a href="https://bloomberg.com" target="_blank" class="nav-item">
+                            <i class="fa fa-line-chart text-red-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">彭博社</span>
+                        </a>
+                        <a href="https://cnn.com" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-red-700 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">CNN</span>
+                        </a>
+                        <a href="https://news.yahoo.com" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-purple-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">雅虎新闻</span>
+                        </a>
+                    </div>
+                    
+                    <!-- 第五行：国际媒体 -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        <a href="https://aljazeera.com" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-orange-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">半岛电视台</span>
+                        </a>
+                        <a href="https://rt.com" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-red-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">今日俄罗斯</span>
+                        </a>
+                        <a href="https://bbc.com/news" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-black w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">BBC新闻</span>
+                        </a>
+                        <a href="https://theguardian.com" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-gray-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">卫报</span>
+                        </a>
+                        <a href="https://nytimes.com" target="_blank" class="nav-item">
+                            <i class="fa fa-globe text-gray-800 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">纽约时报</span>
+                        </a>
+                        <a href="https://marketwatch.com" target="_blank" class="nav-item">
+                            <i class="fa fa-line-chart text-green-600 w-5"></i>
+                            <span class="text-gray-700 text-sm truncate">道琼斯市场</span>
+                        </a>
+                    </div>
                 </div>
             </section>
         </div>
     </div>
 
     <script>
-        // 初始化所有分类的折叠/展开功能
-        document.querySelectorAll('.category-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const category = header.getAttribute('data-category');
-                const content = document.getElementById(`${category}Content`);
-                const icon = document.getElementById(`${category}Icon`);
-                
-                content.classList.toggle('hidden');
-                icon.classList.toggle('rotate-icon');
-            });
-        });
-
-        // 搜索功能实现
-        document.getElementById('search').addEventListener('keyup', function(e) {
-            const searchTerm = e.target.value.toLowerCase().trim();
-            const links = document.querySelectorAll('.nav-item');
-            const categories = document.querySelectorAll('[id$="Content"]');
-            
-            // 如果搜索词不为空，自动展开所有分类
-            if (searchTerm !== '') {
-                categories.forEach(category => {
-                    category.classList.remove('hidden');
-                    const categoryId = category.id.replace('Content', '');
-                    document.getElementById(`${categoryId}Icon`).classList.add('rotate-icon');
-                });
-            }
-            
-            // 过滤显示匹配的导航项
-            links.forEach(link => {
-                const text = link.querySelector('span').textContent.toLowerCase();
-                if (searchTerm === '' || text.includes(searchTerm)) {
-                    link.style.display = 'flex';
+        // 自执行函数封装，确保代码安全执行
+        (function() {
+            // DOM加载完成后执行
+            function ready(fn) {
+                if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                    fn();
                 } else {
-                    link.style.display = 'none';
+                    document.addEventListener('DOMContentLoaded', fn);
+                }
+            }
+
+            ready(function() {
+                // 分类折叠/展开功能
+                document.querySelectorAll('.category-header').forEach(header => {
+                    header.addEventListener('click', function() {
+                        const category = this.getAttribute('data-category');
+                        const content = document.getElementById(`${category}Content`);
+                        const icon = document.getElementById(`${category}Icon`);
+                        
+                        if (content && icon) {
+                            content.classList.toggle('hidden');
+                            icon.classList.toggle('rotate-icon');
+                        }
+                    });
+                });
+
+                // 搜索引擎切换
+                const searchEngine = document.getElementById('searchEngine');
+                const searchForm = document.getElementById('searchForm');
+                const searchInput = document.getElementById('searchInput');
+                const searchButton = document.getElementById('searchButton');
+                
+                if (searchEngine && searchForm && searchInput && searchButton) {
+                    searchEngine.addEventListener('change', function() {
+                        const selectedOption = this.options[this.selectedIndex];
+                        const action = selectedOption.getAttribute('data-action');
+                        const param = selectedOption.getAttribute('data-param');
+                        const engine = selectedOption.getAttribute('value');
+                        
+                        if (action && param) {
+                            searchForm.action = action;
+                            searchInput.name = param;
+                            
+                            if (engine === 'baidu') {
+                                searchButton.className = 'bg-baidu text-white px-6 sm:px-8 rounded-r-lg hover:bg-blue-700 transition-colors whitespace-nowrap search-element flex items-center justify-center';
+                            } else if (engine === 'google') {
+                                searchButton.className = 'bg-google text-white px-6 sm:px-8 rounded-r-lg hover:bg-blue-600 transition-colors whitespace-nowrap search-element flex items-center justify-center';
+                            }
+                        }
+                    });
+                }
+
+                // 搜索过滤功能
+                if (searchInput) {
+                    searchInput.addEventListener('keyup', function(e) {
+                        if (e.key === 'Enter') return;
+                        
+                        const searchTerm = this.value.toLowerCase().trim();
+                        const links = document.querySelectorAll('.nav-item');
+                        const categories = document.querySelectorAll('[id$="Content"]');
+                        
+                        if (searchTerm !== '' && categories) {
+                            categories.forEach(category => {
+                                category.classList.remove('hidden');
+                                const categoryId = category.id.replace('Content', '');
+                                const icon = document.getElementById(`${categoryId}Icon`);
+                                if (icon) icon.classList.add('rotate-icon');
+                            });
+                        }
+                        
+                        if (links) {
+                            links.forEach(link => {
+                                const textEl = link.querySelector('span');
+                                if (textEl) {
+                                    const text = textEl.textContent.toLowerCase();
+                                    link.style.display = (searchTerm === '' || text.includes(searchTerm)) ? 'flex' : 'none';
+                                }
+                            });
+                        }
+                    });
                 }
             });
-        });
+        })();
     </script>
 </body>
 </html>
+    
